@@ -46,7 +46,7 @@ def billForCoffee(drink):
         return f"Money is insufficient to fetch {drink}.Your money is refunded"
     elif amount>rate:
         # profit+=rate
-        return f"Your balance amount is {amount-rate}. Enjoy ur {drink}"
+        return f"Your balance amount is ${amount-rate}. Enjoy ur {drink}"
     else:
         return f"Enjoy your {drink}"
          
@@ -54,25 +54,45 @@ def billForCoffee(drink):
 
 
 
-def check_resource(drink):
+def check_resource(drink,resources,MENU):
     for ing in MENU[drink]["ingredients"]:
+        # print(MENU[drink]["ingredients"])
         if resources[ing]<MENU[drink]["ingredients"][ing]:
+            print(resources[ing],MENU[drink]["ingredients"][ing])
+            # print(f"{resources[ing]}:{MENU[drink]["ingredients"][ing]}")
             return (f"{ing} is not sufficient to make {drink}")
-        else:
-            return billForCoffee(drink)
+        
+    for ing in resources:
+        if ing in MENU[drink]["ingredients"]:
+            resources[ing]-=MENU[drink]["ingredients"][ing]
+            # print("***")
+            # print(resources[ing],MENU["latte"]["ingredients"][ing])
+            # print("***")
+    return billForCoffee(drink)
+        
 
-print(check_resource("latte"))
     
 
 
+avail_drinks=[]
+avail_drinks=["espresso","latte","cappuccino"]
 
 
-# choice=input("What would you like to have (espresso/latte/cappuccino): ").lower()
-# if choice=="report":
-#     for key in resources:
-#         print(f"{key}:{resources[key]}")
-# elif choice=="espresso":
-# if check_resource("espresso"):
-    
-# else:
-#     print
+tocontinue=True
+
+while tocontinue:
+
+    choice=input("What would you like to have (espresso/latte/cappuccino): ").lower()
+    if choice=="report":
+        for key in resources:
+            print(f"{key}:{resources[key]}")
+        print(f"profit:{profit}")
+    elif choice not in avail_drinks:
+        print("sorry. The drink is not available")
+    else:
+        profit+=MENU[choice]["cost"]
+        # print(profit)
+        print(check_resource(choice,resources,MENU))
+    # for ing in resources:
+    #     print(f"{ing}:{resources[ing]}")
+
