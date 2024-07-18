@@ -45,30 +45,26 @@ def billForCoffee(drink,profit):
     if amount<rate:
         return f"Money is insufficient to fetch {drink}.Your money is refunded"
     elif amount>rate:
-        # profit+=rate
-        return f"Your balance amount is ${round(amount-rate,2)} Enjoy ur {drink}"
+        profit+=rate
+        print(f"Your balance amount is ${round(amount-rate,2)} Enjoy ur {drink}")
+        return profit
     else:
-        # profit+=rate
-        return f"Enjoy your {drink}"
-         
+        profit+=rate
+        print(f"Enjoy your {drink}")
+        return profit
 
 
 
 
 def check_resource(drink,profit):
     for ing in MENU[drink]["ingredients"]:
-        # print(MENU[drink]["ingredients"])
         if resources[ing]<MENU[drink]["ingredients"][ing]:
-            # print(resources[ing],MENU[drink]["ingredients"][ing])
-            # print(f"{resources[ing]}:{MENU[drink]["ingredients"][ing]}")
             return (f"{ing} is not sufficient to make {drink}")
         
     for ing in resources:
         if ing in MENU[drink]["ingredients"]:
             resources[ing]-=MENU[drink]["ingredients"][ing]
-            # print("***")
-            # print(resources[ing],MENU["latte"]["ingredients"][ing])
-            # print("***")
+
     return billForCoffee(drink,profit)
         
 
@@ -90,9 +86,12 @@ while tocontinue:
         print("sorry. The drink is not available")
     else:
         
-        # print(profit)
-        print(check_resource(choice,profit))
-        profit+=MENU[choice]["cost"]
-    # for ing in resources:
-    #print(f"{ing}:{resources[ing]}")
+        res=check_resource(choice,profit)
+        
+        if isinstance(res,str):
+            print(res)
+
+        else:  
+            profit=res
+
 
