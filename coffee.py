@@ -34,8 +34,8 @@ resources = {
 }
 
 
-def billForCoffee(drink):
-    print(f"Bill for {drink}:")
+def billForCoffee(drink,profit):
+    print(f'Bill for {drink} is ${MENU[drink]["cost"]}')
     penny=int(input("How many penny?")) * 0.01
     dime=int(input("How many Dime?")) * 0.10
     nickel=int(input("How many Nickel?")) * 0.05
@@ -46,19 +46,20 @@ def billForCoffee(drink):
         return f"Money is insufficient to fetch {drink}.Your money is refunded"
     elif amount>rate:
         # profit+=rate
-        return f"Your balance amount is ${amount-rate}. Enjoy ur {drink}"
+        return f"Your balance amount is ${round(amount-rate,2)} Enjoy ur {drink}"
     else:
+        # profit+=rate
         return f"Enjoy your {drink}"
          
 
 
 
 
-def check_resource(drink,resources,MENU):
+def check_resource(drink,profit):
     for ing in MENU[drink]["ingredients"]:
         # print(MENU[drink]["ingredients"])
         if resources[ing]<MENU[drink]["ingredients"][ing]:
-            print(resources[ing],MENU[drink]["ingredients"][ing])
+            # print(resources[ing],MENU[drink]["ingredients"][ing])
             # print(f"{resources[ing]}:{MENU[drink]["ingredients"][ing]}")
             return (f"{ing} is not sufficient to make {drink}")
         
@@ -68,12 +69,10 @@ def check_resource(drink,resources,MENU):
             # print("***")
             # print(resources[ing],MENU["latte"]["ingredients"][ing])
             # print("***")
-    return billForCoffee(drink)
+    return billForCoffee(drink,profit)
         
 
     
-
-
 avail_drinks=[]
 avail_drinks=["espresso","latte","cappuccino"]
 
@@ -90,9 +89,10 @@ while tocontinue:
     elif choice not in avail_drinks:
         print("sorry. The drink is not available")
     else:
-        profit+=MENU[choice]["cost"]
+        
         # print(profit)
-        print(check_resource(choice,resources,MENU))
+        print(check_resource(choice,profit))
+        profit+=MENU[choice]["cost"]
     # for ing in resources:
-    #     print(f"{ing}:{resources[ing]}")
+    #print(f"{ing}:{resources[ing]}")
 
